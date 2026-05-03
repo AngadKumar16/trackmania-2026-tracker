@@ -1,0 +1,48 @@
+{
+  "lastUpdated": "2026-05-03T12:00:00Z",
+  "nations": {
+    "CA": { "name": "Canada", "flag": "🇨🇦" }
+  },
+  "players": [
+    { "id": "pac",     "tag": "Pac",     "fullName": "Thomas Cole",          "club": "Team Vitality", "nationality": null, "eliteCupRank": 13, "eliteCupPoints": null },
+    { "id": "carljr",  "tag": "CarlJr",  "fullName": "Carl-Antoni Cloutier", "club": "Team Falcons",  "nationality": "CA", "eliteCupRank": 3,  "eliteCupPoints": null },
+    { "id": "granady", "tag": "GranaDy", "fullName": null,                   "club": "Team Liquid",   "nationality": null, "eliteCupRank": 4,  "eliteCupPoints": null },
+    { "id": "epos",    "tag": "Epos",    "fullName": null,                   "club": null,            "nationality": null, "eliteCupRank": 9,  "eliteCupPoints": null },
+    { "id": "mudda",   "tag": "Mudda",   "fullName": null,                   "club": null,            "nationality": null, "eliteCupRank": 2,  "eliteCupPoints": null },
+    { "id": "bren",    "tag": "Bren",    "fullName": null,                   "club": null,            "nationality": null, "eliteCupRank": 7,  "eliteCupPoints": null },
+    { "id": "elconn",  "tag": "eLconn",  "fullName": null,                   "club": null,            "nationality": null, "eliteCupRank": 16, "eliteCupPoints": null },
+    { "id": "wosile",  "tag": "Wosile",  "fullName": null,                   "club": null,            "nationality": null, "eliteCupRank": 6,  "eliteCupPoints": null },
+    { "id": "binkss",  "tag": "Binkss",  "fullName": null,                   "club": null,            "nationality": null, "eliteCupRank": 1,  "eliteCupPoints": null },
+    { "id": "massa",   "tag": "Massa",   "fullName": null,                   "club": null,            "nationality": null, "eliteCupRank": 5,  "eliteCupPoints": null },
+    { "id": "nayko",   "tag": "Nayko",   "fullName": null,                   "club": null,            "nationality": null, "eliteCupRank": 8,  "eliteCupPoints": null },
+    { "id": "otaaaq",  "tag": "Otaaaq",  "fullName": null,                   "club": null,            "nationality": null, "eliteCupRank": 10, "eliteCupPoints": null },
+    { "id": "gwen",    "tag": "Gwen",    "fullName": null,                   "club": null,            "nationality": null, "eliteCupRank": 11, "eliteCupPoints": null },
+    { "id": "mime",    "tag": "Mime",    "fullName": null,                   "club": null,            "nationality": null, "eliteCupRank": 12, "eliteCupPoints": null },
+    { "id": "xerar",   "tag": "Xerar",   "fullName": null,                   "club": null,            "nationality": null, "eliteCupRank": 14, "eliteCupPoints": null },
+    { "id": "scapie",  "tag": "Scapie",  "fullName": null,                   "club": null,            "nationality": null, "eliteCupRank": 15, "eliteCupPoints": null }
+  ],
+  "events": {
+    "dreamhack":   { "name": "DreamHack Birmingham",   "status": "concluded", "startDate": "2026-03-27", "endDate": "2026-03-29", "spots": 8 },
+    "eliteCup":    { "name": "Elite Cup",              "status": "live",      "startDate": "2026-02-14", "endDate": "2026-05-31", "closes": "2026-05-31T23:59:00Z", "ewcSpots": 8, "encSpots": 16, "final": false },
+    "ewcOnline":   { "name": "EWC Online Qualifiers",  "status": "upcoming",  "startDate": "2026-06-12", "endDate": "2026-06-14", "spots": 16 },
+    "encRegional": { "name": "ENC Regional Qualifiers","status": "upcoming",  "startDate": "2026-06-19", "endDate": "2026-06-21", "spots": 14 },
+    "ewc":         { "name": "EWC 2026",               "status": "upcoming",  "startDate": "2026-08-17", "endDate": "2026-08-21", "spots": 32, "prizePool": "$500,000", "location": "Riyadh" },
+    "enc":         { "name": "ENC 2026",               "status": "upcoming",  "startDate": "2026-11-19", "endDate": "2026-11-22", "spots": 32, "prizePool": "$250,000", "location": "Riyadh" }
+  },
+  "dreamhackResults": [
+    { "rank": 1, "playerId": "pac" },
+    { "rank": 2, "playerId": "carljr" },
+    { "rank": 3, "playerId": "granady" },
+    { "rank": 4, "playerId": "epos" },
+    { "rank": 5, "playerId": "mudda" },
+    { "rank": 6, "playerId": "bren" },
+    { "rank": 7, "playerId": "elconn" },
+    { "rank": 8, "playerId": "wosile" }
+  ],
+  "ewcOnlineResults": [],
+  "regionalResults": [],
+  "wildcards": [
+    { "playerId": null, "nation": null, "note": "TBD" },
+    { "playerId": null, "nation": null, "note": "TBD" }
+  ]
+}

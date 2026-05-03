@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TrackMania 2026 — Road to Riyadh</title>
+  <meta name="description" content="Live qualification tracker for the 2026 TrackMania competitive season. EWC and ENC standings, roll-down logic visualised, key dates." />
+  <meta property="og:title" content="TrackMania 2026 — Road to Riyadh" />
+  <meta property="og:description" content="Live tracker for EWC 2026 and ENC 2026 qualification." />
+  <meta name="theme-color" content="#0a0e14" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./css/styles.css" />
+
+  <!-- GoatCounter analytics — replace YOUR_CODE with your goatcounter.com endpoint. -->
+  <script
+    data-goatcounter="https://YOUR_CODE.goatcounter.com/count"
+    async src="//gc.zgo.at/count.js"
+    onerror="console.info('[analytics] GoatCounter blocked or unavailable')"></script>
+</head>
+<body>
+  <div id="error-banner" class="error-banner" hidden></div>
+
+  <header class="hero" id="hero">
+    <div class="hero__inner">
+      <p class="hero__eyebrow">TrackMania 2026 · Esports Season</p>
+      <h1 class="hero__title">Road to Riyadh</h1>
+      <p class="hero__subtitle">Live qualification tracker for EWC 2026 (Aug) and ENC 2026 (Nov). Updated standings, roll-down logic visualised, no fluff.</p>
+      <div class="hero__countdown" id="countdown" aria-live="polite"></div>
+      <p class="hero__updated" id="last-updated"></p>
+    </div>
+  </header>
+
+  <nav class="anchors" aria-label="Section navigation">
+    <a href="#timeline">Timeline</a>
+    <a href="#ewc">EWC</a>
+    <a href="#enc">ENC</a>
+    <a href="#ranking">Ranking</a>
+    <a href="#how">How it works</a>
+  </nav>
+
+  <main>
+    <section id="timeline" class="section">
+      <header class="section__head">
+        <h2 class="section__title">Season timeline</h2>
+        <p class="section__sub">Where we are in the 2026 cycle.</p>
+      </header>
+      <div class="timeline" id="timeline-strip"></div>
+    </section>
+
+    <section id="ewc" class="section">
+      <header class="section__head">
+        <h2 class="section__title">EWC 2026 · 32 spots</h2>
+        <p class="section__sub">Esports World Cup · Riyadh · Aug 17–21 · $500,000</p>
+      </header>
+      <div class="board" id="ewc-board"></div>
+    </section>
+
+    <section id="enc" class="section">
+      <header class="section__head">
+        <h2 class="section__title">ENC 2026 · 32 spots</h2>
+        <p class="section__sub">Esports Nations Cup · Riyadh · Nov 19–22 · $250,000 · max 2 per nation</p>
+      </header>
+      <div class="board" id="enc-board"></div>
+    </section>
+
+    <section id="ranking" class="section">
+      <header class="section__head">
+        <h2 class="section__title">Elite Cup live ranking</h2>
+        <p class="section__sub">Top scoring across the 10 weekly Cups of the Week. Roll-down indicators show where DreamHack qualifiers free up Elite Cup spots.</p>
+      </header>
+      <div class="ranking-tools">
+        <input type="search" id="ranking-search" placeholder="Filter by tag, nation code, or country…" aria-label="Filter ranking" />
+        <button type="button" id="share-btn" class="btn-share">Copy share link</button>
+      </div>
+      <div class="ranking-wrap">
+        <table class="ranking" id="ranking-table">
+          <thead>
+            <tr>
+              <th scope="col">Rank</th>
+              <th scope="col">Player</th>
+              <th scope="col">Club</th>
+              <th scope="col">Pts</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody id="ranking-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="how" class="section">
+      <details class="explainer">
+        <summary>How qualification works</summary>
+        <div class="explainer__body" id="explainer-body"></div>
+      </details>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Data sourced from <a href="https://liquipedia.net/trackmania" rel="noopener noreferrer" target="_blank">Liquipedia</a>, <a href="https://www.esportsworldcup.com" rel="noopener noreferrer" target="_blank">esportsworldcup.com</a>, and official TrackMania announcements.</p>
+    <p>Not affiliated with Ubisoft Nadeo or the EWCF. Player corrections welcome via the <a id="repo-link" href="https://github.com" rel="noopener noreferrer" target="_blank">GitHub repo</a>.</p>
+  </footer>
+
+  <script type="module" src="./js/main.js"></script>
+</body>
+</html>
