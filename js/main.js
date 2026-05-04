@@ -3,6 +3,7 @@ import { computeEwcSlots, computeEncSlots, qualifiedViaMap, smokeTest } from './
 import {
   showErrors,
   renderHero,
+  renderSummaryCards,
   renderTimeline,
   renderEwc,
   renderEnc,
@@ -24,6 +25,7 @@ async function main() {
     const qMap = qualifiedViaMap(ewcSlots, encSlots);
 
     renderHero(data);
+    renderSummaryCards(data, ewcSlots, encSlots);
     renderTimeline(data);
     renderEwc(data, ewcSlots);
     renderEnc(data, encSlots);

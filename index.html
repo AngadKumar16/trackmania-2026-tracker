@@ -3,107 +3,350 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>TrackMania 2026 — Road to Riyadh</title>
-  <meta name="description" content="Live qualification tracker for the 2026 TrackMania competitive season. EWC and ENC standings, roll-down logic visualised, key dates." />
-  <meta property="og:title" content="TrackMania 2026 — Road to Riyadh" />
-  <meta property="og:description" content="Live tracker for EWC 2026 and ENC 2026 qualification." />
-  <meta name="theme-color" content="#0a0e14" />
+  <title>Road to Riyadh</title>
+  <style>
+    :root {
+      --color-background-primary:   #141a22;
+      --color-background-secondary: #1a2230;
+      --color-background-tertiary:  #0a0e14;
+      --color-text-primary:   #e8edf2;
+      --color-text-secondary: #8898a8;
+      --color-text-tertiary:  #5a6878;
+      --color-border-primary:   #2a3848;
+      --color-border-secondary: #1f2c3c;
+      --color-border-tertiary:  #1a2230;
+      --color-border-warning:   #ffb020;
+      --color-background-success: rgba(0, 207, 102, 0.13);
+      --color-text-success:       #00d96e;
+      --color-background-warning: rgba(255, 176, 32, 0.13);
+      --color-text-warning:       #ffb020;
+      --color-background-info:    rgba(120, 180, 255, 0.13);
+      --color-text-info:          #78b4ff;
+      --border-radius-md: 4px;
+    }
+    html { color-scheme: dark; }
+    body { margin: 0; background: var(--color-background-tertiary); min-height: 100vh; }
+  </style>
+  <style>
+  @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+  .rtr * { box-sizing: border-box; margin: 0; padding: 0; }
+  .rtr {
+    font-family: 'Barlow Condensed', sans-serif;
+    background: var(--color-background-tertiary);
+    color: var(--color-text-primary);
+    font-size: 15px;
+  }
+  .rtr-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 16px;
+    border-bottom: 0.5px solid var(--color-border-tertiary);
+    background: var(--color-background-primary);
+    position: sticky; top: 0; z-index: 10;
+  }
+  .rtr-bar-left { display: flex; align-items: center; gap: 10px; }
+  .rtr-sitename {
+    font-size: 13px; font-weight: 600; letter-spacing: 0.08em;
+    text-transform: uppercase; font-family: 'IBM Plex Mono', monospace;
+  }
+  .rtr-live-pill {
+    font-size: 10px; font-weight: 500; letter-spacing: 0.06em;
+    text-transform: uppercase; background: var(--color-background-success);
+    color: var(--color-text-success); padding: 2px 7px; border-radius: 3px;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .rtr-updated { font-size: 12px; color: var(--color-text-tertiary); font-family: 'IBM Plex Mono', monospace; }
+  .rtr-nav { display: flex; gap: 20px; }
+  .rtr-nav a { font-size: 12px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-text-secondary); text-decoration: none; }
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./css/styles.css" />
+  .rtr-body { padding: 16px; display: flex; flex-direction: column; gap: 16px; }
+  .rtr-section-label {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--color-text-tertiary);
+    font-family: 'IBM Plex Mono', monospace; margin-bottom: 8px;
+  }
+  .rtr-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .rtr-card {
+    background: var(--color-background-primary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-md); padding: 14px;
+  }
+  .rtr-card-header {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-bottom: 12px; padding-bottom: 10px;
+    border-bottom: 0.5px solid var(--color-border-tertiary);
+  }
+  .rtr-card-title { font-size: 18px; font-weight: 600; }
+  .rtr-card-sub { font-size: 12px; color: var(--color-text-tertiary); font-family: 'IBM Plex Mono', monospace; }
+  .rtr-spots-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 7px 0; border-bottom: 0.5px solid var(--color-border-tertiary);
+  }
+  .rtr-spots-row:last-child { border-bottom: none; }
+  .rtr-spots-source { font-size: 13px; font-weight: 500; }
+  .rtr-spots-meta { font-size: 11px; color: var(--color-text-tertiary); font-family: 'IBM Plex Mono', monospace; }
+  .rtr-spots-right { display: flex; align-items: center; gap: 8px; }
+  .rtr-badge {
+    font-size: 10px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase;
+    padding: 2px 7px; border-radius: 3px; font-family: 'IBM Plex Mono', monospace;
+  }
+  .rtr-badge-done { background: var(--color-background-success); color: var(--color-text-success); }
+  .rtr-badge-live { background: var(--color-background-warning); color: var(--color-text-warning); }
+  .rtr-badge-soon { background: var(--color-background-secondary); color: var(--color-text-secondary); }
+  .rtr-spots-count { font-size: 13px; font-family: 'IBM Plex Mono', monospace; color: var(--color-text-secondary); min-width: 32px; text-align: right; }
 
-  <!-- GoatCounter analytics — replace YOUR_CODE with your goatcounter.com endpoint. -->
-  <script
-    data-goatcounter="https://YOUR_CODE.goatcounter.com/count"
-    async src="//gc.zgo.at/count.js"
-    onerror="console.info('[analytics] GoatCounter blocked or unavailable')"></script>
+  .rtr-table-controls {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  .rtr-sort-group { display: flex; gap: 6px; }
+  .rtr-sort-btn {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase;
+    font-family: 'IBM Plex Mono', monospace; padding: 4px 10px;
+    border: 0.5px solid var(--color-border-secondary);
+    border-radius: 3px; background: var(--color-background-primary);
+    color: var(--color-text-secondary); cursor: pointer;
+  }
+  .rtr-sort-btn.active {
+    background: var(--color-background-primary);
+    border-color: var(--color-border-primary);
+    color: var(--color-text-primary);
+  }
+
+  .rtr-table-wrap {
+    background: var(--color-background-primary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-md); overflow: hidden;
+  }
+  .rtr-table { width: 100%; border-collapse: collapse; }
+  .rtr-table th {
+    font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--color-text-tertiary); font-family: 'IBM Plex Mono', monospace;
+    text-align: left; padding: 8px 12px;
+    border-bottom: 0.5px solid var(--color-border-tertiary);
+    background: var(--color-background-secondary);
+  }
+  .rtr-table th.right { text-align: right; }
+  .rtr-table td {
+    padding: 8px 12px; font-size: 14px;
+    border-bottom: 0.5px solid var(--color-border-tertiary); vertical-align: middle;
+  }
+  .rtr-table tr:last-child td { border-bottom: none; }
+  .rtr-table tr.cutline td { border-bottom: 2px solid var(--color-border-warning); }
+  .rtr-table tr.passdown td { opacity: 0.45; }
+  .rtr-table tr.country-header td {
+    background: var(--color-background-secondary);
+    font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--color-text-secondary); font-family: 'IBM Plex Mono', monospace;
+    padding: 5px 12px;
+  }
+
+  .rtr-rank { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--color-text-tertiary); width: 28px; }
+  .rtr-flag { font-size: 16px; line-height: 1; margin-right: 6px; }
+  .rtr-nat { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--color-text-tertiary); margin-right: 4px; }
+  .rtr-player { font-weight: 600; font-size: 15px; }
+  .rtr-fullname { font-size: 11px; color: var(--color-text-tertiary); font-weight: 400; margin-left: 5px; }
+  .rtr-club { font-size: 12px; color: var(--color-text-secondary); }
+  .rtr-pts { font-family: 'IBM Plex Mono', monospace; font-size: 13px; text-align: right; color: var(--color-text-secondary); }
+  .rtr-status-cell { text-align: right; white-space: nowrap; }
+  .rtr-qual-badge {
+    display: inline-block; font-size: 10px; font-weight: 500; letter-spacing: 0.04em;
+    padding: 2px 7px; border-radius: 3px; font-family: 'IBM Plex Mono', monospace; white-space: nowrap;
+  }
+  .q-ewc-dh { background: var(--color-background-success); color: var(--color-text-success); }
+  .q-ewc-ec { background: var(--color-background-info); color: var(--color-text-info); }
+  .q-enc { background: var(--color-background-warning); color: var(--color-text-warning); }
+  .rtr-passdown-note { font-size: 10px; color: var(--color-text-tertiary); font-family: 'IBM Plex Mono', monospace; margin-left: 5px; }
+  .rtr-cutline-label {
+    font-size: 10px; color: var(--color-text-warning); font-family: 'IBM Plex Mono', monospace;
+    text-align: center; padding: 4px 12px;
+    background: var(--color-background-warning);
+    border-top: 0.5px solid var(--color-border-tertiary);
+  }
+  .rtr-unknown { color: var(--color-text-tertiary); font-size: 13px; }
+  </style>
 </head>
 <body>
-  <div id="error-banner" class="error-banner" hidden></div>
 
-  <header class="hero" id="hero">
-    <div class="hero__inner">
-      <p class="hero__eyebrow">TrackMania 2026 · Esports Season</p>
-      <h1 class="hero__title">Road to Riyadh</h1>
-      <p class="hero__subtitle">Live qualification tracker for EWC 2026 (Aug) and ENC 2026 (Nov). Updated standings, roll-down logic visualised, no fluff.</p>
-      <div class="hero__countdown" id="countdown" aria-live="polite"></div>
-      <p class="hero__updated" id="last-updated"></p>
+<div class="rtr">
+  <div class="rtr-bar">
+    <div class="rtr-bar-left">
+      <span class="rtr-sitename">Road to Riyadh</span>
+      <span class="rtr-live-pill">Live</span>
     </div>
-  </header>
+    <span class="rtr-updated" id="rtr-updated"></span>
+    <nav class="rtr-nav">
+      <a href="#">EWC</a><a href="#">ENC</a><a href="#">Ranking</a>
+    </nav>
+  </div>
 
-  <nav class="anchors" aria-label="Section navigation">
-    <a href="#timeline">Timeline</a>
-    <a href="#ewc">EWC</a>
-    <a href="#enc">ENC</a>
-    <a href="#ranking">Ranking</a>
-    <a href="#how">How it works</a>
-  </nav>
+  <div class="rtr-body">
 
-  <main>
-    <section id="timeline" class="section">
-      <header class="section__head">
-        <h2 class="section__title">Season timeline</h2>
-        <p class="section__sub">Where we are in the 2026 cycle.</p>
-      </header>
-      <div class="timeline" id="timeline-strip"></div>
-    </section>
-
-    <section id="ewc" class="section">
-      <header class="section__head">
-        <h2 class="section__title">EWC 2026 · 32 spots</h2>
-        <p class="section__sub">Esports World Cup · Riyadh · Aug 17–21 · $500,000</p>
-      </header>
-      <div class="board" id="ewc-board"></div>
-    </section>
-
-    <section id="enc" class="section">
-      <header class="section__head">
-        <h2 class="section__title">ENC 2026 · 32 spots</h2>
-        <p class="section__sub">Esports Nations Cup · Riyadh · Nov 19–22 · $250,000 · max 2 per nation</p>
-      </header>
-      <div class="board" id="enc-board"></div>
-    </section>
-
-    <section id="ranking" class="section">
-      <header class="section__head">
-        <h2 class="section__title">Elite Cup live ranking</h2>
-        <p class="section__sub">Top scoring across the 10 weekly Cups of the Week. Roll-down indicators show where DreamHack qualifiers free up Elite Cup spots.</p>
-      </header>
-      <div class="ranking-tools">
-        <input type="search" id="ranking-search" placeholder="Filter by tag, nation code, or country…" aria-label="Filter ranking" />
-        <button type="button" id="share-btn" class="btn-share">Copy share link</button>
+    <div class="rtr-two-col">
+      <div class="rtr-card">
+        <div class="rtr-card-header">
+          <span class="rtr-card-title">EWC 2026</span>
+          <span class="rtr-card-sub">Aug 17–21 · Riyadh · $500k · 32 spots</span>
+        </div>
+        <div class="rtr-spots-row">
+          <div><div class="rtr-spots-source">DreamHack Birmingham</div><div class="rtr-spots-meta">Mar 27–29</div></div>
+          <div class="rtr-spots-right"><span class="rtr-badge rtr-badge-done">Concluded</span><span class="rtr-spots-count">8 / 8</span></div>
+        </div>
+        <div class="rtr-spots-row">
+          <div><div class="rtr-spots-source">Elite Cup</div><div class="rtr-spots-meta">Closes May 31</div></div>
+          <div class="rtr-spots-right"><span class="rtr-badge rtr-badge-live">Live</span><span class="rtr-spots-count">0 / 8</span></div>
+        </div>
+        <div class="rtr-spots-row">
+          <div><div class="rtr-spots-source">Online Qualifiers</div><div class="rtr-spots-meta">Jun 12–14</div></div>
+          <div class="rtr-spots-right"><span class="rtr-badge rtr-badge-soon">Upcoming</span><span class="rtr-spots-count">0 / 16</span></div>
+        </div>
       </div>
-      <div class="ranking-wrap">
-        <table class="ranking" id="ranking-table">
+
+      <div class="rtr-card">
+        <div class="rtr-card-header">
+          <span class="rtr-card-title">ENC 2026</span>
+          <span class="rtr-card-sub">Nov 19–22 · Riyadh · $250k · 32 spots</span>
+        </div>
+        <div class="rtr-spots-row">
+          <div><div class="rtr-spots-source">Elite Cup</div><div class="rtr-spots-meta">1 per nation · closes May 31</div></div>
+          <div class="rtr-spots-right"><span class="rtr-badge rtr-badge-live">Live</span><span class="rtr-spots-count">1 / 16</span></div>
+        </div>
+        <div class="rtr-spots-row">
+          <div><div class="rtr-spots-source">Regional Qualifiers</div><div class="rtr-spots-meta">Jun 19–21 · 6 regions</div></div>
+          <div class="rtr-spots-right"><span class="rtr-badge rtr-badge-soon">Upcoming</span><span class="rtr-spots-count">0 / 14</span></div>
+        </div>
+        <div class="rtr-spots-row">
+          <div><div class="rtr-spots-source">Wildcards</div><div class="rtr-spots-meta">TBD</div></div>
+          <div class="rtr-spots-right"><span class="rtr-badge rtr-badge-soon">TBD</span><span class="rtr-spots-count">0 / 2</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="rtr-table-controls">
+        <div class="rtr-section-label" style="margin-bottom:0;">Elite Cup live ranking</div>
+        <div class="rtr-sort-group">
+          <button class="rtr-sort-btn active" id="btn-rank" onclick="setSort('rank')">By rank</button>
+          <button class="rtr-sort-btn" id="btn-country" onclick="setSort('country')">By country</button>
+        </div>
+      </div>
+
+      <div class="rtr-table-wrap">
+        <table class="rtr-table" id="main-table">
           <thead>
             <tr>
-              <th scope="col">Rank</th>
-              <th scope="col">Player</th>
-              <th scope="col">Club</th>
-              <th scope="col">Pts</th>
-              <th scope="col">Status</th>
+              <th style="width:32px;">#</th>
+              <th>Player</th>
+              <th>Nation</th>
+              <th>Club</th>
+              <th class="right">Pts</th>
+              <th class="right">Status</th>
             </tr>
           </thead>
-          <tbody id="ranking-body"></tbody>
+          <tbody id="table-body"></tbody>
         </table>
+        <div class="rtr-cutline-label" id="cutline-label">— cutline · ranking closes May 31 —</div>
       </div>
-    </section>
+    </div>
 
-    <section id="how" class="section">
-      <details class="explainer">
-        <summary>How qualification works</summary>
-        <div class="explainer__body" id="explainer-body"></div>
-      </details>
-    </section>
-  </main>
+  </div>
+</div>
 
-  <footer class="footer">
-    <p>Data sourced from <a href="https://liquipedia.net/trackmania" rel="noopener noreferrer" target="_blank">Liquipedia</a>, <a href="https://www.esportsworldcup.com" rel="noopener noreferrer" target="_blank">esportsworldcup.com</a>, and official TrackMania announcements.</p>
-    <p>Not affiliated with Ubisoft Nadeo or the EWCF. Player corrections welcome via the <a id="repo-link" href="https://github.com" rel="noopener noreferrer" target="_blank">GitHub repo</a>.</p>
-  </footer>
+<script src="data.js"></script>
+<script>
+// players + UPDATED loaded from data.js
+document.getElementById('rtr-updated').textContent = 'Updated ' + UPDATED;
 
-  <script type="module" src="./js/main.js"></script>
+let currentSort = 'rank';
+
+function statusBadges(p) {
+  let out = '';
+  if (p.dh)    out += '<span class="rtr-qual-badge q-ewc-dh">EWC · DreamHack</span>';
+  if (p.ewcEc) out += '<span class="rtr-qual-badge q-ewc-ec">EWC · Elite Cup</span>';
+  if (p.enc)   out += ' <span class="rtr-qual-badge q-enc">ENC · Elite Cup</span>';
+  if (p.dh)    out += '<span class="rtr-passdown-note">↓ passes down</span>';
+  return out;
+}
+
+function natCell(p) {
+  if (!p.nat) return '<td><span class="rtr-unknown">—</span></td>';
+  return '<td><span class="rtr-flag">' + p.flag + '</span><span class="rtr-nat">' + p.nat + '</span></td>';
+}
+
+function renderRank() {
+  const tbody = document.getElementById('table-body');
+  let html = '';
+  players.forEach(p => {
+    const cls = p.dh ? 'passdown' : (p.cutline ? 'cutline' : '');
+    html += '<tr class="' + cls + '">';
+    html += '<td class="rtr-rank">' + p.rank + '</td>';
+    html += '<td><span class="rtr-player">' + p.tag + '</span>';
+    if (p.full) html += '<span class="rtr-fullname">' + p.full + '</span>';
+    html += '</td>';
+    html += natCell(p);
+    html += '<td class="rtr-club">' + (p.club || '—') + '</td>';
+    html += '<td class="rtr-pts">' + (p.pts ?? '—') + '</td>';
+    html += '<td class="rtr-status-cell">' + statusBadges(p) + '</td>';
+    html += '</tr>';
+  });
+  tbody.innerHTML = html;
+  document.getElementById('cutline-label').style.display = '';
+}
+
+function renderCountry() {
+  const tbody = document.getElementById('table-body');
+  const known = players.filter(p => p.nat).sort((a,b) => a.nat.localeCompare(b.nat));
+  const unknown = players.filter(p => !p.nat);
+  let html = '';
+
+  const groups = {};
+  known.forEach(p => { if (!groups[p.nat]) groups[p.nat] = []; groups[p.nat].push(p); });
+
+  Object.keys(groups).sort().forEach(nat => {
+    const grp = groups[nat];
+    html += '<tr class="country-header"><td colspan="6">' + grp[0].flag + '  ' + nat + '</td></tr>';
+    grp.forEach(p => {
+      const cls = p.dh ? 'passdown' : '';
+      html += '<tr class="' + cls + '">';
+      html += '<td class="rtr-rank">' + p.rank + '</td>';
+      html += '<td><span class="rtr-player">' + p.tag + '</span>';
+      if (p.full) html += '<span class="rtr-fullname">' + p.full + '</span>';
+      html += '</td>';
+      html += natCell(p);
+      html += '<td class="rtr-club">' + (p.club || '—') + '</td>';
+      html += '<td class="rtr-pts">' + (p.pts ?? '—') + '</td>';
+      html += '<td class="rtr-status-cell">' + statusBadges(p) + '</td>';
+      html += '</tr>';
+    });
+  });
+
+  if (unknown.length) {
+    html += '<tr class="country-header"><td colspan="6">?  Nationality unknown</td></tr>';
+    unknown.forEach(p => {
+      const cls = p.dh ? 'passdown' : '';
+      html += '<tr class="' + cls + '">';
+      html += '<td class="rtr-rank">' + p.rank + '</td>';
+      html += '<td><span class="rtr-player">' + p.tag + '</span></td>';
+      html += '<td><span class="rtr-unknown">—</span></td>';
+      html += '<td class="rtr-club">' + (p.club || '—') + '</td>';
+      html += '<td class="rtr-pts">' + (p.pts ?? '—') + '</td>';
+      html += '<td class="rtr-status-cell">' + statusBadges(p) + '</td>';
+      html += '</tr>';
+    });
+  }
+
+  tbody.innerHTML = html;
+  document.getElementById('cutline-label').style.display = 'none';
+}
+
+function setSort(mode) {
+  currentSort = mode;
+  document.getElementById('btn-rank').classList.toggle('active', mode === 'rank');
+  document.getElementById('btn-country').classList.toggle('active', mode === 'country');
+  mode === 'rank' ? renderRank() : renderCountry();
+}
+
+renderRank();
+</script>
+
 </body>
 </html>
